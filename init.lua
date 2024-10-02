@@ -167,6 +167,13 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagn
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
+--Keymap for rustlings
+
+vim.keymap.set({ "n" }, "<leader>r", function()
+	vim.cmd([[%s/\n\n\/\/ I AM NOT DONE//]])
+	vim.cmd.w()
+end)
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -189,6 +196,12 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left wind
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+
+--set Keymaps for Rust
+
+vim.keymap.set("n", "<leader><F4>", "<cmd>!cargo check<CR>", { desc = "Run cargo check command" })
+vim.keymap.set("n", "<leader><F5>", "<cmd>!cargo run<CR>", { desc = "Run cargo run command" })
+vim.keymap.set("n", "<leader><F6>", "<cmd>!cargo build<CR>", { desc = "Run cargo build command" })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -257,6 +270,20 @@ require("lazy").setup({
 			},
 		},
 	},
+    {
+  "ray-x/go.nvim",
+  dependencies = {  -- optional packages
+    "ray-x/guihua.lua",
+    "neovim/nvim-lspconfig",
+    "nvim-treesitter/nvim-treesitter",
+  },
+  config = function()
+    require("go").setup()
+  end,
+  event = {"CmdlineEnter"},
+  ft = {"go", 'gomod'},
+  build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+},
 
 	-- NOTE: Plugins can also be configured to run Lua code when they are loaded.
 	--
